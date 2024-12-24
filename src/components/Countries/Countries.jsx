@@ -7,8 +7,6 @@ const Countries = () => {
   const [countries, setCountries] = useState([]);
   const [visitedCountries, setVisitedCountries] = useState([]);
 
-
-
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all")
       .then((res) => res.json())
@@ -18,8 +16,8 @@ const Countries = () => {
   /* Handle Visited Countries */
   const handleVisitedCountries = (country) => {
     const newVisitedCountries = [...visitedCountries, country];
-    setVisitedCountries(newVisitedCountries)
-}
+    setVisitedCountries(newVisitedCountries);
+  };
 
   return (
     <div>
@@ -28,16 +26,20 @@ const Countries = () => {
       <div>
         <h4>Visited Countries: {visitedCountries.length}</h4>
         <ul>
-          {
-            visitedCountries.map((country) => <li key={country.cca3}>{country.name.common}</li>)
-          }
+          {visitedCountries.map((country) => (
+            <li key={country.cca3}>{country.name.common}</li>
+          ))}
         </ul>
       </div>
 
-    {/* Display Countries */}
+      {/* Display Countries */}
       <div className="country-container">
         {countries.map((country) => (
-          <Country key={country.cca2} handleVisitedCountries={handleVisitedCountries} country={country}></Country>
+          <Country
+            key={country.cca2}
+            handleVisitedCountries={handleVisitedCountries}
+            country={country}
+          ></Country>
         ))}
       </div>
     </div>
