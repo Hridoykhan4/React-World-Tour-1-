@@ -1,0 +1,11 @@
+.country{
+    border: 2px solid skyblue;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.visited{
+    background-color: bisque;
+    color: black;
+}

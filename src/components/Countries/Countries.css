@@ -1,0 +1,12 @@
+.country-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+}
+
+
+@media screen and (max-width: 600px) {
+    .country-container{
+        grid-template-columns: 1fr;
+    }
+}
