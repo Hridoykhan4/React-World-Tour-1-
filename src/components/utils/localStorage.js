@@ -13,7 +13,6 @@ const saveTolS = (cart) => {
 
 const addToLS = (id) => {
   const cart = getStoredCountries();
-  console.log(cart);
   cart.push(id);
   saveTolS(cart);
 };

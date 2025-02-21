@@ -36,9 +36,14 @@ const Countries = () => {
     } else {
       setVisitedCountries([...visitedCountries, country]);
       addToLS(country.cca3);
+      toast.success("Selected Country", {
+        position: "top-right",
+        style: { padding: "0.6rem" },
+      });
     }
   };
 
+  // Loaded local storage items
   useEffect(() => {
     if (countries.length) {
       const cart = getStoredCountries();
@@ -100,7 +105,7 @@ const Countries = () => {
           <h2>Deleted List: {deletedList.length}</h2>
           {deletedList.map((country) => (
             <ul key={country.cca3}>
-              <l>{country.name.common}</l>
+              <li>{country.name.common}</li>
             </ul>
           ))}
         </div>
