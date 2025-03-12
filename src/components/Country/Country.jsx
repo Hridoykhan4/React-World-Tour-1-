@@ -13,8 +13,8 @@ const Country = ({ country, handleVisitedCountries }) => {
 
   // console.log(country);
   return (
-    <div className={`country ${visited && "visited"}`}>
-      <h3 style={{ color: visited ? "Purple" : "white" }}>
+    <div className={`country ${visited && "bg-green-900"}`}>
+      <h3 style={{ color: visited ? "white" : "red", marginBottom: "1rem" }}>
         Name: {name?.common}
       </h3>
       <div style={{ height: "208px" }}>
@@ -33,6 +33,7 @@ const Country = ({ country, handleVisitedCountries }) => {
       <br />
 
       <button
+        className="btn btn-warning"
         onClick={() => {
           handleVisitedCountries(country);
         }}
@@ -42,7 +43,11 @@ const Country = ({ country, handleVisitedCountries }) => {
       <br />
       <br />
 
-      <button style={{ marginRight: "0.67rem" }} onClick={handleVisited}>
+      <button
+        className={`btn ${visited && "btn-primary"}`}
+        style={{ marginRight: "0.67rem" }}
+        onClick={handleVisited}
+      >
         {visited ? "Visited" : "Going"}
       </button>
       {visited ? (
@@ -51,7 +56,7 @@ const Country = ({ country, handleVisitedCountries }) => {
         <span>Eager To go</span>
       )}
 
-      <hr />
+      <hr className="my-5" />
       <CountryDetail
         country={country}
         handleVisitedCountries={handleVisitedCountries}

@@ -14,15 +14,23 @@ const Countries = () => {
   const [visitedCountries, setVisitedCountries] = useState([]);
   const [deletedList, setDeletedList] = useState([]);
   const [tempCountries, setTempCountries] = useState([]);
-
+  const [spinner, setSpinner] = useState(false);
+  const [seeMore, setSeeMore] = useState(false);
   useEffect(() => {
+    setSpinner(true);
+
     fetch("https://restcountries.com/v3.1/all")
       .then((res) => res.json())
       .then((data) => {
-        setCountries(data);
-        setTempCountries(data);
+        setTimeout(() => {
+          seeMore ? setCountries(data) : setCountries(data.slice(0, 10));
+          setTempCountries(data);
+          {
+            setSpinner(false) && setSeeMore(false);
+          }
+        }, 2000);
       });
-  }, []);
+  }, [seeMore]);
 
   /* Handle Visited Countries */
   const handleVisitedCountries = (country) => {
@@ -86,18 +94,34 @@ const Countries = () => {
     }
   };
 
+  const handleCapital = (e) => {
+    const capital = e.target.value;
+
+    const loadData = async () => {
+      const res = await fetch(
+        `https://restcountries.com/v3.1/capital/${capital}`
+      );
+      const data = await res.json();
+      data.length ? setCountries(data) : setCountries(tempCountries);
+    };
+
+    loadData();
+  };
+
   return (
-    <div>
-      <h3>Countries: {countries.length}</h3>
+    <div className="space-y-4">
+      <h3 className="text-2xl text-green-400">Countries: {countries.length}</h3>
       {/* Visited Country */}
-      <div>
+      <div className="space-y-3">
         <h4>Visited Countries: {visitedCountries.length}</h4>
-        <ul>
+        <ul className="list-decimal list-inside">
           {visitedCountries.map((country) => (
-            <div key={country.cca3} style={{ margin: "1rem" }}>
-              <li>{country.name.common}</li>
-              <button onClick={() => handleRemove(country)}>Delete</button>
-            </div>
+            <>
+              <li className="inline mr-4">{country?.name?.common}</li>
+              <span className="btn" onClick={() => handleRemove(country)}>
+                Delete
+              </span>
+            </>
           ))}
         </ul>
 
@@ -113,10 +137,28 @@ const Countries = () => {
 
       <input
         type="text"
+        className="input input-bordered"
         onKeyUp={(e) => handleKey(e)}
-        placeholder="Search Country"
+        placeholder="Search Country By Name"
         style={{ padding: "1.3rem 1rem" }}
       />
+
+      <br />
+
+      <input
+        type="text"
+        className="input input-bordered"
+        onKeyUp={(e) => handleCapital(e)}
+        placeholder="Search Country By Capital"
+        style={{ padding: "1.3rem 1rem" }}
+      />
+
+      {spinner && (
+        <div className="relative flex justify-center items-center">
+          <div className="absolute animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-500"></div>
+          <img src="" className="rounded-full" />
+        </div>
+      )}
 
       {/* Display Countries */}
       <div className="country-container">
@@ -128,6 +170,17 @@ const Countries = () => {
           ></Country>
         ))}
       </div>
+
+      {spinner || seeMore ? null : (
+        <div className="text-center">
+          <button
+            onClick={() => setSeeMore(true)}
+            className="btn btn-primary text-white"
+          >
+            See All
+          </button>
+        </div>
+      )}
     </div>
   );
 };
